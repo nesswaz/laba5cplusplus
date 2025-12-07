@@ -1,10 +1,10 @@
-#define _HAS_STD_BYTE 0
-#define NOMINMAX
+// #define _HAS_STD_BYTE 0
+// #define NOMINMAX
 #include "laura5.h"
 #include <iostream>
 #include <fstream>
 #include <set>
-#include <cctype> // РґР»СЏ ispunct()
+#include <cctype> // для ispunct()
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -14,25 +14,25 @@ using namespace std;
 
 void fillFromKeyboard(string& str) {
     clearString(str);
-    cout << "Р’РІРµРґРёС‚Рµ СЃС‚СЂРѕРєСѓ: ";
-    cin.ignore(); //РѕС‡РёС‰Р°РµРј Р±СѓС„РµСЂ РѕР±РјРµРЅР°
+    cout << "Введите строку: ";
+    cin.ignore(); //очищаем буфер обмена
     getline(cin, str);
-    cout << "РЎС‚СЂРѕРєР° Р·Р°РїРѕР»РЅРµРЅР° СЃ РєР»Р°РІРёР°С‚СѓСЂС‹" << endl;
+    cout << "Строка заполнена с клавиатуры" << endl;
 }
 
 
 void printString(const string& str) {
     if (str.empty()) {
-        cout << "РЎС‚СЂРѕРєР° РїСѓСЃС‚Р°" << endl;
+        cout << "Строка пуста" << endl;
         return;
     }
-    cout << "РЎС‚СЂРѕРєР°: " << str << endl;
+    cout << "Строка: " << str << endl;
 }
 
 
 void clearString(string& str) {
     str.clear();
-    cout << "РЎС‚СЂРѕРєР° РѕС‡РёС‰РµРЅР°" << endl;
+    cout << "Строка очищена" << endl;
 }
 
 
@@ -40,7 +40,7 @@ bool fillFromFile(string& str, const string& filename) {
     clearString(str);
     ifstream file(filename);
     if (!file.is_open()) {
-        cout << "РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°" << endl;
+        cout << "Ошибка открытия файла" << endl;
         return false;
     }
     string line;
@@ -48,7 +48,7 @@ bool fillFromFile(string& str, const string& filename) {
         str += line;
     }
     file.close();
-    cout << "РЎС‚СЂРѕРєР° Р·Р°РіСЂСѓР¶РµРЅР° РёР· С„Р°Р№Р»Р°" << endl;
+    cout << "Строка загружена из файла" << endl;
     cout << str << endl;
     return true;
 }
@@ -63,11 +63,11 @@ void task1(string& str) {
         str.replace(index, 1, ".");
         index++;
     }
-    // РЈРґР°Р»СЏРµРј РІРѕР·РјРѕР¶РЅС‹Р№ РїСЂРѕР±РµР» РІ РєРѕРЅС†Рµ, РµСЃР»Рё РѕРЅ РѕСЃС‚Р°Р»СЃСЏ
+    // Удаляем возможный пробел в конце, если он остался
     if (!str.empty() && str.back() == ' ') {
         str.pop_back();
     }
-    cout << "Р’Р°С€Р° СЃС‚СЂРѕРєР°: " << endl;
+    cout << "Ваша строка: " << endl;
     cout << str << endl;
 }
 
@@ -76,31 +76,31 @@ void task2(string& str) {
     for (int i = 0; i < str.length(); i++) {
         char c = str[i];
         if (c == '-') {
-            str.replace(i, 1, "вЂ”");
+            str.replace(i, 1, "—");
             p = p + 1;
             
         }
     }
     if (p > 0) {
-        cout << "Р’ СЃС‚СЂРѕРєРµ Р·Р°РјРµРЅРёР»РёСЃСЊ - РЅР° вЂ” " << endl;
+        cout << "В строке заменились - на — " << endl;
         cout << str << endl;
     }
     else {
-        cout << "Р’ СЃС‚СЂРѕРєРµ РЅРµ Р±С‹Р»Рѕ Р·РЅР°РєРѕРІ -" << endl;
+        cout << "В строке не было знаков -" << endl;
         cout << str << endl;
     }
 }
 
 void task36(string& str) {
-    set<char> chars; //РєРѕРЅС‚РµР№РЅРµСЂ СЃРµС‚ С‚РёРїР° С‡Р°СЂ Р±СѓРґРµС‚ С…СЂР°РЅРёС‚СЊ СѓРЅРёРєР°Р»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹
-    for (char c : str) { // РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃРёРјРІРѕР»Р° СЃ РІ СЃС‚СЂРѕРєРµ str
-        if (!ispunct(c) && c != ' ') { // РёРіРЅРѕСЂРёСЂСѓРµРј Р·РЅР°РєРё РїСЂРµРїРёРЅР°РЅРёСЏ Рё РїСЂРѕР±РµР»С‹
-            chars.insert(c); // РґРѕР±Р°РІР»СЏРµС‚ РІ chars
+    set<char> chars; //контейнер сет типа чар будет хранить уникальные символы
+    for (char c : str) { // для каждого символа с в строке str
+        if (!ispunct(c) && c != ' ') { // игнорируем знаки препинания и пробелы
+            chars.insert(c); // добавляет в chars
         }
     }
-    cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… СЃРёРјРІРѕР»РѕРІ: " << chars.size() << endl;
-    cout << "РЈРЅРёРєР°Р»СЊРЅС‹Рµ СЃРёРјРІРѕР»С‹: ";
-    for (char c : chars) { //С†РёРєР» РІС‹РѕРґР° СЃРёРјРІРѕР»РѕРІ
+    cout << "Количество различных символов: " << chars.size() << endl;
+    cout << "Уникальные символы: ";
+    for (char c : chars) { //цикл выода символов
         cout << "'" << c << "' ";
     }
     cout << endl;
@@ -108,11 +108,44 @@ void task36(string& str) {
 
 void task24(string& str) {
     int gamma = 200;
-    cout << "РСЃС…РѕРґРЅРѕ: \"" << str << "\"" << endl;
+    cout << "Исходно: \"" << str << "\"" << endl;
     string str1 = str;
     for (int i = 0; i < str.length(); i++) {
-        str1[i] = str[i] ^ gamma; // XOR - РёСЃРєР»СЋС‡Р°СЋС‰Р°СЏ РёР»Рё(РїРѕР±РёС‚РѕРІР°СЏ РѕРїРµСЂР°С†РёСЏ) РµСЃР»Рё 1 0 РёР»Рё 0 1 С‚Рѕ 1 РёРЅР°С‡Рµ 0
+        str1[i] = str[i] ^ gamma; // XOR - исключающая или(побитовая операция) если 1 0 или 0 1 то 1 иначе 0
     }
-    cout << "CС‚СЂРѕРєР°: \"" << str << "\"" << endl;
-    cout << "\nР РµР·СѓР»СЊС‚Р°С‚: " << str1 << endl;
+    cout << "Cтрока: \"" << str << "\"" << endl;
+    cout << "\nРезультат: " << str1 << endl;
+}
+
+void fillRandomAll(string& str, int length) {
+    clearString(str);
+    srand(time(0));
+    vector<string> chars = {
+    // Русские строчные
+    "а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й", "к", "л", "м", "н", "о", "п", 
+    "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ы", "ь", "э", "ю", "я",
+    
+    // Русские заглавные  
+    "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н", "О", "П",
+    "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ъ", "Ы", "Ь", "Э", "Ю", "Я",
+    
+    // Английские строчные
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+    "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    
+    // Английские заглавные
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
+    "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    
+    // Цифры
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    
+    // Спецсимволы
+    "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "=", "[", "]", "{",
+    "}", "|", ";", ":", ",", ".", "<", ">", "?", "~", "`"
+};
+    for (int i = 0; i < length; i++) {
+        str += chars[rand() % chars.size()];
+    }
+    cout << "Создана строка из всех символов!" << endl;
 }

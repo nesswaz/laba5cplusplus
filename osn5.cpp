@@ -1,6 +1,9 @@
-#define _HAS_STD_BYTE 0
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN 
+#ifdef _WIN64
+#include <windows.h>
+#endif
+// #define _HAS_STD_BYTE 0
+// #define NOMINMAX
+// #define WIN32_LEAN_AND_MEAN 
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -9,27 +12,32 @@
 #include <cstdlib>
 #include <string>
 #include "laura5.h"
-#include <algorithm> //Р±РёР±Р»РёРѕС‚РµРєР° РґР»СЏ РєРѕРјР°РЅРґ СЃС‚СЂРѕРєРё
-#include <windows.h>
+#include <algorithm> //библиотека для команд строки
+// #include <windows.h>
 using namespace std;
 
+
 int main() {
-    SetConsoleOutputCP(65001);
+    //SetConsoleOutputCP(65001);
+    #ifdef _WIN64
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+    #endif
     int choice;
     string myString;
     do {
-        cout << "1. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹" << endl;//+
-        cout << "2. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё" << endl;
-        cout << "3. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ РёР· С„Р°Р№Р»Р°" << endl;//+
+        cout << "1. Заполнить строку с клавиатуры" << endl;//+
+        cout << "2. Заполнить строку случайными числами" << endl;
+        cout << "3. Заполнить строку из файла" << endl;//+
         cout << endl;
-        cout << "4. Р—Р°РґР°РЅРёРµ String47" << endl;//++
-        cout << "5. Р—Р°РґР°РЅРёРµ Str19" << endl;//++
-        cout << "6. Р—Р°РґР°РЅРёРµ Str24" << endl;//++
-        cout << "7. Р—Р°РґР°РЅРёРµ Str36" << endl;//++
-        cout << "8. Р—Р°РґР°РЅРёРµ Str32" << endl;
-        cout << "9. Р—Р°РґР°РЅРёРµ 1" << endl;
-        cout << "10. Р—Р°РґР°РЅРёРµ Five7" << endl;
-        cout << "999. Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹" << endl;
+        cout << "4. Задание String47" << endl;//++
+        cout << "5. Задание Str19" << endl;//++
+        cout << "6. Задание Str24" << endl;//++
+        cout << "7. Задание Str36" << endl;//++
+        cout << "8. Задание Str32" << endl;
+        cout << "9. Задание 1" << endl;
+        cout << "10. Задание Five7" << endl;
+        cout << "999. Выход из программы" << endl;
         cin >> choice;
         switch (choice) {
             case 1: {
@@ -38,7 +46,7 @@ int main() {
             }
             case 3: {
                 string filename;
-                cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°: ";
+                cout << "Введите имя файла: ";
                 cin >> filename;
                 fillFromFile(myString, filename);
                 break;
@@ -60,11 +68,11 @@ int main() {
                 break;
             }
             case 999: {
-                cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹" << endl;
+                cout << "Выход из программы" << endl;
                 break;
             }
             default:
-                cout << "Р’РІРµРґРµРЅС‹ РЅРµРІРµСЂРЅС‹Рµ РґР°РЅРЅС‹Рµ" << endl;
+                cout << "Введены неверные данные" << endl;
                 break;
         }
     } while (choice != 999);
