@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <string>
 #include "laura5.h"
-#include <algorithm> //библиотека для команд строки
+#include <algorithm> //Р±РёР±Р»РёРѕС‚РµРєР° РґР»СЏ РєРѕРјР°РЅРґ СЃС‚СЂРѕРєРё
 // #include <windows.h>
 using namespace std;
 
@@ -26,18 +26,18 @@ int main() {
     int choice;
     string myString;
     do {
-        cout << "1. Заполнить строку с клавиатуры" << endl;//+
-        cout << "2. Заполнить строку случайными числами" << endl;
-        cout << "3. Заполнить строку из файла" << endl;//+
+        cout << "1. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹" << endl;//+
+        cout << "2. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё" << endl;
+        cout << "3. Р—Р°РїРѕР»РЅРёС‚СЊ СЃС‚СЂРѕРєСѓ РёР· С„Р°Р№Р»Р°" << endl;//+
         cout << endl;
-        cout << "4. Задание String47" << endl;//++
-        cout << "5. Задание Str19" << endl;//++
-        cout << "6. Задание Str24" << endl;//++
-        cout << "7. Задание Str36" << endl;//++
-        cout << "8. Задание Str32" << endl;
-        cout << "9. Задание 1" << endl;
-        cout << "10. Задание Five7" << endl;
-        cout << "999. Выход из программы" << endl;
+        cout << "4. Р—Р°РґР°РЅРёРµ String47" << endl;//++
+        cout << "5. Р—Р°РґР°РЅРёРµ Str19" << endl;//++
+        cout << "6. Р—Р°РґР°РЅРёРµ Str24" << endl;//++
+        cout << "7. Р—Р°РґР°РЅРёРµ Str36" << endl;//++
+        cout << "8. Р—Р°РґР°РЅРёРµ Str32" << endl;
+        cout << "9. Р—Р°РґР°РЅРёРµ 1" << endl;
+        cout << "10. Р—Р°РґР°РЅРёРµ Five7" << endl;
+        cout << "999. Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹" << endl;
         cin >> choice;
         switch (choice) {
             case 1: {
@@ -46,7 +46,7 @@ int main() {
             }
             case 3: {
                 string filename;
-                cout << "Введите имя файла: ";
+                cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°: ";
                 cin >> filename;
                 fillFromFile(myString, filename);
                 break;
@@ -80,11 +80,11 @@ int main() {
                 break;
             }
             case 999: {
-                cout << "Выход из программы" << endl;
+                cout << "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹" << endl;
                 break;
             }
             default:
-                cout << "Введены неверные данные" << endl;
+                cout << "Р’РІРµРґРµРЅС‹ РЅРµРІРµСЂРЅС‹Рµ РґР°РЅРЅС‹Рµ" << endl;
                 break;
         }
     } while (choice != 999);
