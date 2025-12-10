@@ -67,6 +67,18 @@ int main() {
                 task36(myString);
                 break;
             }
+            case 8: {
+                task32(myString);
+                break;
+            }
+            case 9: {
+                task12();
+                break;
+            }
+            case 10: {
+                task7();
+                break;
+            }
             case 999: {
                 cout << "Выход из программы" << endl;
                 break;

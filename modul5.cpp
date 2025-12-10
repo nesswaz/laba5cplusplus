@@ -7,10 +7,11 @@
 #include <cctype> // для ispunct()
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 #include <string>
 #include <vector>
 using namespace std;
-
+//f,gfgffg - fffd в файл б.тхт
 
 void fillFromKeyboard(string& str) {
     clearString(str);
@@ -149,3 +150,234 @@ void fillRandomAll(string& str, int length) {
     }
     cout << "Создана строка из всех символов!" << endl;
 }
+
+void task32(string& str) {
+    string up = str;
+    // Преобразуем все символы строки в верхний регистр
+    for (char& c : up) {
+        c = toupper(c);
+    }
+    // Проверяем, состоит ли строка только из допустимых 20теричных цифр
+    for (char c : up) {
+        if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'J'))) {
+            cout << "Не 20теричное число" << endl;
+            return;
+        }
+    }
+    cout << "Является 20теричным" << endl;
+
+    // Преобразуем 20теричное число в десятичное
+    int decimal = 0;
+    for (char c : up) {
+        int digit;
+        if (isdigit(c)) {
+            digit = c - '0'; // Для цифр 0-9
+        } 
+        else {
+            digit = c - 'A' + 10; // Для букв A-F
+        }
+        decimal = decimal * 20 + digit;
+    }
+    cout << "В десятичной: " << decimal << endl;
+
+    // Преобразуем десятичное число в 16сс
+    string hex;
+    int t = decimal;
+    if (t == 0) {
+        hex = "0";
+    } else {
+        while (t > 0) {
+            int remainder = t % 16;
+            char hex_digit;
+            if (remainder < 10) {
+                hex_digit = '0' + remainder; // Цифры 0-9
+            } else {
+                hex_digit = 'A' + (remainder - 10); // Буквы A-F
+            }
+            hex = hex_digit + hex; // Добавляем цифру в начало строки
+            t /= 16;
+        }
+    }
+    cout << "В 16сс: " << hex << endl;
+}
+
+void task12() {
+    cout << "\nГенератор паролей" << endl;
+    const string lowercase = "abcdefghijklmnopqrstuvwxyz";
+    const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const string digits = "0123456789";
+    const string symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+    int level;
+    cout << "Выберите уровень сложности пароля:" << endl;
+    cout << "1 - Простой (5 символов, только буквы)" << endl;
+    cout << "2 - Средний (10 символов, буквы + цифры)" << endl;
+    cout << "3 - Сложный (25 символов, буквы + цифры + символы)" << endl;
+    cin >> level;
+    int length;
+    string charPool;
+    string description;
+    switch (level) {
+        case 1:
+            length = 5;
+            charPool = lowercase + uppercase;
+            description = "Простой (только буквы)";
+            break;
+        case 2:
+            length = 10;
+            charPool = lowercase + uppercase + digits;
+            description = "Средний (буквы + цифры)";
+            break;
+        case 3:
+            length = 25;
+            charPool = lowercase + uppercase + digits + symbols;
+            description = "Сложный (буквы + цифры + символы)";
+            break;
+        default:
+            cout << " Выберите уровень сложности 1-3" << endl;
+            break;
+    }
+    string password;
+    for (int i = 0; i < length; i++) {
+        password += charPool[rand() % charPool.length()];
+    }
+    cout << "\nРезультат генерации: " << endl;
+    cout << "Уровень: " << level << endl;
+    cout << "Пароль: " << password << endl;
+}
+//В нашем коде string::npos используется для проверки,
+// нашлись ли в строке нужные символы (+, -, *, =) перед проверкой формата примера.
+
+
+
+void task7() {
+    ifstream in("FN1.txt");
+    ofstream out("FN2.txt");
+    if (!in.is_open()) {
+        cout << "Ошибка открытия файла FN1.txt" << endl;
+        return;
+    }
+    string line;
+    while (getline(in, line)) {
+        // Пропускаем пустые строки
+        if (line.empty()) continue;
+        
+        size_t plus = line.find('+');
+        size_t minus = line.find('-');
+        size_t umn = line.find('*');
+        size_t ravno = line.find('=');
+        
+        if (ravno == string::npos) {
+            // Нет знака равно - некорректная строка
+            out << line << " -" << endl;
+            continue;
+        }
+        // Определяем операцию
+        char operation = ' ';
+        size_t pos = string::npos;
+        
+        if (plus != string::npos && plus < ravno) {
+            operation = '+';
+            pos = plus;
+        } else if (minus != string::npos && minus < ravno) {
+            operation = '-';
+            pos = minus;
+        } else if (umn != string::npos && umn < ravno) {
+            operation = '*';
+            pos = umn;
+        } else {
+            // Нет знака операции - некорректная строка
+            out << line << " -" << endl;
+            continue;
+        }
+        // Извлекаем операнды и ответ
+        string operand1s = line.substr(0, pos);
+        string operand2s = line.substr(pos + 1, ravno - pos - 1);
+        string answer = line.substr(ravno + 1);
+
+        // Преобразуем операнды в десятичную систему
+        int operand1 = fromBase12(operand1s);
+        int operand2 = fromBase12(operand2s);
+        int answers = fromBase12(answer);
+        
+        if (operand1 == -1 || operand2 == -1 || answers == -1) {
+            // Некорректные двенадцатеричные числа
+            out << line << " -" << endl;
+            continue;
+        }
+        
+        // Вычисляем правильный ответ
+        int correct = 0;
+        switch (operation) {
+            case '+':
+                correct = operand1 + operand2;
+                break;
+            case '-':
+                correct = operand1 - operand2;
+                break;
+            case '*':
+                correct = operand1 * operand2;
+                break;
+        }
+        
+        // Преобразуем правильный ответ обратно в двенадцатеричную систему
+        string correct_answer = toBase12(correct);
+        
+        // Сравниваем ответы
+        if (answers == correct) {
+            out << line << endl; // Правильно - просто копируем строку
+        } else {
+            out << line << " -" << endl; // Неправильно - добавляем "-"
+        }
+    }
+    
+    cout << "Проверка завершена! Результаты записаны в файл FN2.txt" << endl;
+    
+    in.close();
+    out.close();
+}
+
+
+// Функция для преобразования двенадцатеричного числа в десятичное
+int fromBase12(string num) {
+    int result = 0;
+    int power = 0;
+    
+    for (int i = num.length() - 1; i >= 0; i--) {
+        char c = toupper(num[i]);
+        int digit;
+        
+        if (c >= '0' && c <= '9') {
+            digit = c - '0';
+        } else if (c >= 'A' && c <= 'B') {
+            digit = 10 + (c - 'A');
+        } else {
+            return -1; // Некорректный символ
+        }
+        
+        result += digit * pow(12, power);
+        power++;
+    }
+    return result;
+}
+
+// Функция для преобразования десятичного числа в двенадцатеричное
+string toBase12(int num) {
+    if (num == 0) return "0";
+    
+    string result = "";
+    while (num > 0) {
+        int remainder = num % 12;
+        char digit;
+        
+        if (remainder < 10) {
+            digit = '0' + remainder;
+        } else {
+            digit = 'A' + (remainder - 10);
+        }
+        
+        result = digit + result;
+        num /= 12;
+    }
+    return result;
+}
+

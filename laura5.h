@@ -17,4 +17,12 @@ void task2(string& str);
 void task36(string& str);
 
 void task24(string& str);
+
+void task32(string& str);
+
+void task12();
+
+void task7();
+int fromBase12(string num);
+string toBase12(int num);
 #endif
